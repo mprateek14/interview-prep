@@ -1,0 +1,24 @@
+.folder-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5dc76;
+    cursor: pointer;
+    color: black;
+    width: 400px;
+    font-weight: bold;
+}
+
+.folder-actions{
+    display: flex;
+    gap: 10px;
+}
+
+.file-container{
+        border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #96948e;
+}

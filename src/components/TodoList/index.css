@@ -1,0 +1,29 @@
+.todo-wrapper {
+  width: 400px;
+}
+.todo-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.todo-item {
+  display: flex;
+  align-items: center;
+}
+.todo-item-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid red;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.todo-item-name {
+  flex-grow: 1;
+}
+
+.todo-list-tabs{
+    display: flex;
+}

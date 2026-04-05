@@ -1,0 +1,46 @@
+.toggle-switch-wrapper {
+  display: block;
+}
+
+.toggle-switch-input {
+  appearance: none;
+
+  position: relative;
+  border-radius: 5em;
+  height: 1.5em;
+  width: 3em;
+  background-color: blueviolet;
+  transition: background-color 0.3s ease;
+  margin: 0;
+}
+
+.toggle-switch-input::before {
+  content: "";
+  border-radius: 50%;
+  height: 1.1em;
+  width: 1.1em;
+  left: 0.2em;
+  bottom: 0.2em;
+  position: absolute;
+  background-color: white;
+  transition: transform 0.3s ease;
+}
+
+.toggle-switch-input:checked{
+    background-color: brown;
+}
+
+.toggle-switch-input:checked::before{
+    transform: translateX(1.5em);
+}
+
+
+.sample-buttton{
+    width: 100%;
+    height: 100%;
+    transition: ease-in-out 1s;
+}
+
+.sample-buttton:hover{
+    transform: scale(2);
+}

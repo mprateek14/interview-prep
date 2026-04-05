@@ -1,0 +1,20 @@
+.pagination-container{
+    display: flex;
+    gap: 8px;
+}
+
+.pagination-item{
+    height: 40px;
+    width: 40px;
+    border: 1px solid black;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}
+
+.page-active{
+    background-color:firebrick;
+    border: 2px solid white;
+}

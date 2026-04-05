@@ -1,0 +1,69 @@
+* {
+  box-sizing: border-box;
+}
+
+.tic-tic-toe-wrapper {
+  margin-top: 50px;
+}
+
+.tic-tac-toe-board {
+  width: 500px;
+  height: 500px;
+  font-size: 15px;
+  color: wheat;
+  border: 2px solid white;
+}
+
+.tic-tac-toe-row {
+  width: 100%;
+  border-bottom: 2px solid white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.tic-tac-toe-row:last-child {
+  border-bottom: none;
+}
+
+.tic-tac-toe-col {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 2px solid white;
+}
+
+.tic-tac-toe-col:last-child {
+  border-right: none;
+}
+
+/* v2 */
+
+.tic-tac-toe-board-v2 {
+  width: 500px;
+  height: 500px;
+  /* 1. Switch from Flexbox to Grid */
+  display: grid;
+
+
+  border: 2px solid white;
+  background-color: #222; /* Just to see the grid lines */
+  /* Creates the internal grid lines instantly without complex border math */
+  gap: 1px;
+}
+
+/* the gap: 1px combined with a background color on the parent and a different background color on the cells. 
+This is a classic CSS Grid trick to create perfect 1px borders between all cells without dealing with collapsing margins, 
+box-sizing overflow, or writing complex :last-child selectors to remove edge borders. */
+
+.tic-tac-toe-cell {
+  background-color: black; /* The background of the cell */
+  color: wheat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  cursor: pointer;
+  /* No height, width, or borders needed here. Grid handles it. */
+}

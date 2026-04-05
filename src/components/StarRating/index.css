@@ -1,0 +1,13 @@
+.star-rating-container{
+    display: flex;
+    gap: 3px;
+}
+
+.rating-star{
+    font-size: 35px;
+}
+
+.active-star{
+   color: gold;
+   transition: color ease-in 0.3s;
+}

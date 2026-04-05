@@ -1,0 +1,27 @@
+.autocomplete-wrapper{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    width: 100vw;
+}
+
+.autocomplete-container{
+    width: 400px;
+}
+
+.autocomplete-input{
+    height: 30px;
+    width: 100%;
+    padding: 0;
+}
+
+.autocomplete-suggestions-wrapper{
+    width: 100%;
+    border: 2px solid blue;
+    height: 100%;
+}
+
+.autocomplete-results-list-item{
+    cursor: pointer;
+    
+}

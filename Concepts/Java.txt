@@ -1,0 +1,15 @@
+## Reverse String
+
+String original = "Hello World";
+String sb = new StringBuilder(original).reverse().toString();
+
+
+
+## Reset StringBuilder
+
+sb.setLength(0)
+
+
+## Character to int
+
+Character.getNumericValue(c)

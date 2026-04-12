@@ -288,9 +288,6 @@ const dbInfoLogger = logInfo("DATABASE");
 authErrorLogger("Invalid password attempt."); // "[ERROR] AUTH_MODULE: Invalid password attempt."
 dbInfoLogger("Connection established."); // "[INFO] DATABASE: Connection established."
 
-
-
-
 // PROMISES
 
 const promise = new Promise((resolve, reject) => {
@@ -712,13 +709,12 @@ const obj4 = {
 };
 obj4.printThisToo();
 
-
 // TRICK PATTERN 6
 
-function hoister(){
-  console.log(a) // will output function definition a
+function hoister() {
+  console.log(a); // will output function definition a
 
-  function a(){}
+  function a() {}
 
   var a = 2;
 
@@ -758,7 +754,15 @@ const trialObj2 = {
 
 Function.prototype.newCall = function (context, ...args) {
   // notice we are using rest on args here to take comma seperated valuess
-  context = context || globalThis; //context is basically on what we are calling the method. If it is null, we take the global object
+  //context is basically on what we are calling the method. If it is null, we take the global object
+
+  //context = context ? Object(context) : globalThis; // dont do this. if user passes 0 or false, this will fail to convert it to object and point to globalThis
+
+  if (context === null || context === undefined) {
+    context = globalThis;
+  } else {
+    context = Object(context);
+  }
 
   let id = Symbol(); // Symbol always return unique value in memory
   context[id] = this; // this represents the function/method which we are trying to call
@@ -778,12 +782,19 @@ Function.prototype.newApply = function (context, args) {
   if (args !== undefined && args !== null && typeof args !== "object") {
     throw new TypeError("CreateListFromArrayLike called on non-object");
   }
-  context = context || globalThis;
+
+  if (context === null || context === undefined) {
+    context = globalThis;
+  } else {
+    context = Object(context);
+  }
 
   const id = Symbol();
   context[id] = this;
 
-  const result = context[id](...(args || []));
+  const argArray = args ? Array.from(args) : [];
+
+  const result = context[id](...argArray);
 
   delete context[id];
 
@@ -936,17 +947,13 @@ const newDebounce = (callback, delay, immediate) => {
   };
 };
 
-Promise.newAll = function(promiseArray){
-  return new Promise((resolve, reject) => {
-    if(!Array.isArray(promiseArray)){
-      throw new Error("skfdndskf")
-    }
 
-    const result = []
-    let count = 0;
+let learnObj = {name: "laalalaa"}
 
-    promiseArray.forEach((promise) => {
-      
-    })
-  })
+function getName(name){
+  console.log(name)
 }
+
+const bound1 = getName.bind(learnObj, "pppp")
+
+bound1("jjjj")

@@ -36,6 +36,8 @@ function Checkboxes({ data = checkboxData }) {
         (item) => allNodes[item].checked === true,
       );
 
+      // the parent should be matching the children. if they are all true or all false, it takes their value
+      // and now since parent changed, we need to check this upwards recursively again for the parent
       if (parentData.checked !== allSiblingsChecked) {
         parentData.checked = allSiblingsChecked;
         checkParent(parentData.parent);

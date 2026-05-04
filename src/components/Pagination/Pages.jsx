@@ -43,6 +43,7 @@ function Pages({ currentPage, maxPages, onPageChange }) {
       const middleSide = Array.from(
         { length: 1 + 2 * siblings },
         (_, idx) => currentPage - 1 + idx,
+        // this should be currentPage-siblingCount+idx. The current condition only works when sibling count is 1
       );
       return [1, DOTS, ...middleSide, DOTS, maxPages];
     }

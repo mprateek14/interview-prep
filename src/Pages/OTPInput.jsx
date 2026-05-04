@@ -8,23 +8,24 @@ function OTPInput() {
   const inputRefs = useRef([]);
 
   useEffect(() => {
-    inputRefs.current[0]?.focus()
-  }, [])
+    inputRefs.current[0]?.focus();
+    // wont throw error because we are setting the refs in empty array while rendering the otp
+  }, []);
 
   const handleChange = (e, idx) => {
     const value = e.target.value;
     if (isNaN(value) || value === " ") return;
 
     const temp = [...otp];
-    temp[idx] = value.slice(-1);
+    temp[idx] = value.slice(-1); //if user has pasted something with more than 1 length, we take last character
     setOtp(temp);
 
-    const fullOtp = temp.join("")
-        if(fullOtp.length === N){
-            handleSubmit()
-        }
+    const fullOtp = temp.join("");
+    if (fullOtp.length === N) {
+      handleSubmit();
+    }
 
-    idx < N-1 && value !== "" && inputRefs.current[idx + 1]?.focus();
+    idx < N - 1 && value !== "" && inputRefs.current[idx + 1]?.focus();
   };
 
   const handleKeyDown = (e, idx) => {
@@ -36,31 +37,31 @@ function OTPInput() {
   };
 
   const handleSubmit = () => {
-    console.log("Submitted")
-  }
+    console.log("Submitted");
+  };
 
   const handlePaste = (e) => {
-    const clipboardData = e.clipboardData.getData("text")
-    console.log(clipboardData)
-    if(!clipboardData) return;
+    const clipboardData = e.clipboardData.getData("text");
+    console.log(clipboardData);
+    if (!clipboardData) return;
 
-    let allNums = '';
-    for(let i=0; i<clipboardData?.length; i++){
-        if(allNums.length === N) break;
-        if(isNaN(clipboardData[i]) || clipboardData[i] === "") continue;
-        else{
-            allNums+=clipboardData[i]
-        }
+    let allNums = "";
+    for (let i = 0; i < clipboardData?.length; i++) {
+      if (allNums.length === N) break;
+      if (isNaN(clipboardData[i]) || clipboardData[i] === "") continue;
+      else {
+        allNums += clipboardData[i];
+      }
     }
 
-    let temp = [...otp]
-    for(let i=0; i<N; i++){
-        temp[i] = allNums[i]
+    let temp = [...otp];
+    for (let i = 0; i < N; i++) {
+      temp[i] = allNums[i];
     }
-    setOtp(temp)
-    console.log(allNums)
-  }
-// "112233sdas1133s"
+    setOtp(temp);
+    console.log(allNums);
+  };
+  // "112233sdas1133s"
   return (
     <div>
       {otp.map((item, idx) => {
@@ -74,7 +75,7 @@ function OTPInput() {
             onChange={(e) => handleChange(e, idx)}
             ref={(e) => (inputRefs.current[idx] = e)}
             onKeyDown={(e) => handleKeyDown(e, idx)}
-            onPaste={(e)=>handlePaste(e)}
+            onPaste={(e) => handlePaste(e)}
             style={{
               height: "50px",
               width: "50px",

@@ -590,7 +590,7 @@ console.dir(returned, "check closure preservation");
 
 // if we do, 2 == 'javascript' -> right will get coerced to NaN using toNumber() and return false.
 // Nan == NaN returns false
-// true == 'true' is false. Left side gets evaluated to 1 using toNumber() coercion and then compared with right.
+// true == 'true' is false. Left side gets evaluated to 1 using toNumber() coercion and then compared with right which becomes NaN.
 // null == 0 and undefined == 0 are false. For null and undefined, JS does not use toNumber() coercion.
 // For coercing array, JS uses toString() and then compares. [1,2] == "" will become -> "1,2" == "".
 // Coercing process stops as soon as types on both sides is same. If we do [1] == 1, first it will be "1" == 1, then again it will coerce to Number and return true.
@@ -657,7 +657,7 @@ function aaa() {
   );
 }
 
-aaa(); // undefined in non strict mode -> because function has been called without any reference
+aaa(); // undefined in strict mode -> because function has been called without any reference
 window.aaa(); // will point to window object even in strict mode. Here this will refer to window object since it has been called with it.
 
 // Value of This keyword will change depending upon how the function is called.
@@ -680,7 +680,7 @@ const obj2 = {
 
 obj1.printHero.call(obj2); // calls printHero method on obj2.
 
-// Arrow functions don't have their own this. Value of this is retained from enclosing lexical context.
+// Arrow functions don't have their own this. Value of this is retained from enclosing lexical context and checked by going up the scope chain.
 
 const arrowMan = () => {
   console.log(this, "this inside arrow function"); // will be window object. Lexical context is basically where the parent exists. arrowMan exists in window obj.
@@ -689,7 +689,8 @@ arrowMan();
 
 const obj3 = {
   printThis: () => {
-    console.log(this, "this inside arrow function method of an object"); // will be window object again as obj3 is present in window. wont point to obj3.
+    console.log(this, "this inside arrow function method of an object");
+    // will be window object again as obj3 is present in window. wont point to obj3 because object literals dont create a scope. they are just a data structure
   },
 };
 obj3.printThis();
@@ -708,6 +709,16 @@ const obj4 = {
   },
 };
 obj4.printThisToo();
+
+// the depth of the object is irrelevant with arrow function
+const deeplyNested = {
+  a: {
+    b: {
+      c: () => console.log(this)
+    }
+  }
+};
+deeplyNested.a.b.c(); // Output: window object
 
 // TRICK PATTERN 6
 

@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import {folderData} from "../components/FolderStructure/data"
 import Folder from '../components/FolderStructure/Folder'
+import { folderDataStructured } from '../constants/folderData'
+import FolderStructureV2 from '../components/FolderStructure/FolderStructureV2'
 
 function FolderStructure() {
 
@@ -8,7 +10,8 @@ function FolderStructure() {
 
   return (
     <>
-      <Folder folderData={data}/>
+      {/* <Folder folderData={data}/> */}
+      <FolderStructureV2 folderDataAll={folderDataStructured} />
     </>
   )
 }

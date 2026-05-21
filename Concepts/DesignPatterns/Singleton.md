@@ -1,12 +1,15 @@
 # Singleton Design Pattern
 
 ## The Problem Statement
+
 In software design, you often need a central component (like a Logger or Configuration Manager) where every part of your application shares the exact same instance. If multiple instances are created, it leads to memory waste and resource conflicts (e.g., multiple objects trying to write to the same log file concurrently). The problem is ensuring a class can only be instantiated once while providing a safe, global access point to it.
 
 ## Brief Theory
+
 The Singleton pattern is a creational design pattern that restricts the instantiation of a class to one single object. 
 
 To achieve this, you must implement three core elements:
+
 1. **A private static variable** to hold the single instance of the class.
 2. **A private constructor** to prevent other classes from creating new instances using the `new` keyword.
 3. **A public static method** (usually named `getInstance()`) to provide global access to that single instance.

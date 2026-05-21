@@ -58,3 +58,23 @@ function throttle(callback, delay){
 * **`{ leading: true, trailing: false }`**: Fires at the start. Drops the final state.
 * **`{ leading: false, trailing: true }`**: Suppresses the initial execution. Waits for the delay, then fires with the latest arguments.
 * **`{ leading: true, trailing: true }`**: The standard default for most libraries. It fires immediately, throttles the intermediate spam, and guarantees one final execution at the end of the cycle with the freshest data.
+
+## Debounce
+
+```JavaScript
+function debounce(callback, delay){
+    let timer;
+
+    return function(...args){
+        const context = this;
+
+        clearTimeout(timer);
+
+        setTimeout(() => {
+            callback.apply(context, args);
+        }, delay)
+    }
+}
+```
+
+### With immediate flag

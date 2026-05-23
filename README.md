@@ -1,6 +1,6 @@
 # Interview Prep Repository
 
-A comprehensive collection of resources and practice problems for technical interview preparation, with a strong focus on frontend machine coding questions and system design concepts.
+A comprehensive collection of resources and practice problems for technical interview preparation, with a strong focus on frontend machine coding questions and system design concepts. All the content has been self-articulated and refactored with AI agents for clarity.
 
 ## Repository Structure
 

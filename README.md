@@ -1,16 +1,62 @@
-# React + Vite
+# Interview Prep Repository
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive collection of resources and practice problems for technical interview preparation, with a strong focus on frontend machine coding questions and system design concepts.
 
-Currently, two official plugins are available:
+## Repository Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 📁 `/src` - Frontend Machine Coding
 
-## React Compiler
+Interactive React components for various frontend interview problems:
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- **Accordian** - Expandable/collapsible accordion components
+- **AutoComplete** - Search with suggestions functionality
+- **Connect4** - Classic Connect Four game implementation
+- **Modal** - Modal dialog components with image galleries
+- **Pagination** - Paginated data display
+- **Star Rating** - Interactive star rating component
+- **TodoList** - Task management app
+- **Virtual List** - Efficient rendering of large lists
+- **Folder Structure** - Hierarchical folder navigation
+- **TicTacToe** - Classic Tic Tac Toe game
+- **ToggleSwitch** - Toggle/switch UI components
+- **And more...** - Additional frontend components and utilities
 
-## Expanding the ESLint configuration
+### 📁 `/Concepts` - Learning Resources
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Organized documentation covering key interview topics:
+
+- **System Design** - Common issues (Celebrity Problem, Hot Key, Thundering Herd, Scatter-Gather, N+1 Query Problem)
+- **Design Patterns** - Factory, Singleton, Strategy patterns
+- **Frontend** - Debounce/Throttle, Optimization, Promises, React theory, Stale closures
+- **Core JavaScript** - Fundamental JS concepts and practices
+- **Node.js** - Event emitters, async handlers, streams, global error handling
+- **AI** - Architecture and concepts
+- **Data Structures & Algorithms** - DSA patterns and implementations
+- **Docker** - Containerization basics
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm or yarn
+
+### Installation
+
+```bash
+npm install
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+Starts the development server at `http://localhost:5173`
+
+### Build
+
+```bash
+npm run build
+```

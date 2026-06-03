@@ -25,6 +25,7 @@ import StarRating from './Pages/StarRating';
 import ProgressBar from './Pages/ProgressBar';
 import Pagination from './Pages/Pagination';
 import Playground from './Pages/Playground';
+import MultiCarousel from './Pages/MultiSlideCarousel';
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
@@ -52,6 +53,7 @@ createRoot(document.getElementById('root')).render(
         <Route path='/progress-bar' element={<ProgressBar />} />
         <Route path='/pagination' element={<Pagination />} />
         <Route path='/playground' element={<Playground />} />
+        <Route path='/multi-carousel' element={<MultiCarousel />} />
         <Route path="/" element={<Home />} />
       </Routes>
 

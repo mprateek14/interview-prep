@@ -4,6 +4,7 @@ import "./index.css"
 function Folder({ folderData }) {
     const [isExpanded, setIsExpanded] = useState(false)
     const [children, setChildren] = useState(folderData.children)
+    // this implementation is wrong. children become a localized state. cant use this.
     const [showInput, setShowInput] = useState({ visible: false, type: null })
     const [inputValue, setInputValue] = useState("")
 

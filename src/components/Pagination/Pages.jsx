@@ -7,7 +7,7 @@ function Pages({ currentPage, maxPages, onPageChange }) {
   // USING useState and useEffect to calcualte pageArr will be anti pattern as it will cause multiple re renders on page change
   // first on prop change and then on setPageArr state.
   const pageArr = useMemo(() => {
-    const siblings = 1;
+    const siblings = 2;
 
     const totalItems = 5 + 2 * siblings; //1begin + 1end + 1current + 2ellipses
 
@@ -36,17 +36,24 @@ function Pages({ currentPage, maxPages, onPageChange }) {
         { length: rightItemCount },
         (_, i) => maxPages - rightItemCount + i + 1,
       );
+      // Need +1 here else we will fall 1 page short in last.
+      // If total is 100 and rightCount is 7. Last i will be 6. and last page will become 100-7+6 = 99.
       return [1, DOTS, ...rightSide];
     }
 
     if (showLeftDots && showRightDots) {
       const middleSide = Array.from(
         { length: 1 + 2 * siblings },
-        (_, idx) => currentPage - 1 + idx,
+        (_, idx) => currentPage - siblings + idx,
         // this should be currentPage-siblingCount+idx. The current condition only works when sibling count is 1
       );
       return [1, DOTS, ...middleSide, DOTS, maxPages];
     }
+    // we are deliberately returning constant number of elements in all result arrays so there is no CLS and content jumping
+    // when pages are changed. for 2 siblings and currentPage 10 - [1] [...] [8] [9] [10] [11] [12] [...] [20]
+    // we have to total of 9 elements. now in edge case scenarios as well, we want to keep 9.
+    // if currentPage is 2, [1] [2] [3] [4] [...] [20] can be a viable solution but the the pagination div will keep
+    // jumping due to constant change in total elements when currentPage changes.
   }, [currentPage, maxPages]);
 
   return (

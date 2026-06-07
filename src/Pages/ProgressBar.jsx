@@ -13,11 +13,11 @@ const Bar = ({ progress }) => {
     >
       <div
         style={{
-          //   width: `${progress}%`,
-          //   transition: "width ease-in 0.1s",
+            width: `${progress}%`,
+            transition: "width ease-in 0.1s",
           //   For better performance transform can be used for animation. Comment above 2 and uncomment the below 2
-          transform: `scaleX(${progress / 100})`,
-          transformOrigin: "left",
+          // transform: `scaleX(${progress / 100})`,
+          // transformOrigin: "left",
           height: "100%",
           backgroundColor: "green",
         }}

@@ -23,6 +23,7 @@ function List({ data, itemHeight = 50, viewportHeight = 600 }) {
   };
 
   return (
+    // First div - outer wrapper of the size we want
     <div
       className="outer-fixed-viewport"
       style={{
@@ -33,10 +34,12 @@ function List({ data, itemHeight = 50, viewportHeight = 600 }) {
       }}
       onScroll={handleScroll}
     >
+      {/* Second div - totalHeight ensures scrollbar is of right size. Position relative is used to handle the children */}
       <div
         className="inner-ghost-viewport"
         style={{ height: totalHeight, position: "relative" }}
       >
+        {/* Third div - Moves using transform to show only required elements */}
         <div
           style={{
             width: "100%",

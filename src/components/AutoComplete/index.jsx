@@ -5,13 +5,8 @@ import { getSuggestions } from "../../constants/MockSuggestionsServer";
 function AutoCompleteComponent() {
   const [value, setValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [isFocused, setIsFocused] = useState();
 
   const inputRef = useRef();
-
-  const handleFocus = (val) => {
-    setIsFocused(val);
-  };
 
   const handleChange = (inputText) => {
     setValue(inputText);

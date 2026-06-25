@@ -645,6 +645,14 @@ counter01();
 
 // Both counters are independent. Each creates a new instance.
 
+// MORE TRICKS
+console.log(1 + "2" + "2"); //"122"
+console.log(1 + +"2" + "2"); //"32"
+
+let lalala = [1, 2, 3, 4, 5];
+lalala.length = 0;
+console.log(lalala); // "lalala will become empty"
+
 // Trick Pattern 5 -> THIS keyword
 
 console.log(this, "In global context, this points to window/global object");
@@ -968,3 +976,39 @@ function getName(name){
 const bound1 = getName.bind(learnObj, "pppp")
 
 bound1("jjjj")
+
+
+function concurrentPromiseProcessor(promises, size){
+  const result = []
+  let nextIdx = 0;
+
+  return new Promise((resolve, reject) => {
+    if(promises.length === 0) resolve(result);
+
+    async function processItem(idx){
+      nextIdx++;
+
+      try{
+        const res = await promises[idx];
+        result[idx] = res;
+
+        if(result.length === promises.length) resolve(result);
+
+        if(nextIdx<promises.length) processItem(nextIdx);
+      }
+      catch(err){
+        reject(err)
+      }
+    }
+
+    for(let i=0; i<Math.min(size, promises.length); i++){
+      processItem(promises[i])
+    }
+  })
+}
+
+
+
+// 5-15
+// 4-20
+// 3-25

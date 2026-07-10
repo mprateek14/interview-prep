@@ -48,7 +48,7 @@ Often, there is one main bundle `main.123455.js` that loads initially; it holds 
 The code-splitting takes place when the production build is being created, and the anatomy of the files looks like `[name].[hash].js` or `[name].[hash].css`.
 
 * **name**: Unique name of the file, which can be pulled from the component file name or can be randomly generated.
-* **hash**: A hash generated from the current timestamp to remove caching from the bundle, so that the browser knows new files are there and must be loaded.
+* **hash**: A hash generated from the file contents to remove caching from the bundle, so that the browser knows new files are there and must be loaded.
 
 ## Adaptive Loading
 
@@ -77,7 +77,40 @@ List virtualization is often implemented using a strategy called **"windowing."*
 
 ## Core Web Vitals
 
-[Read Here](https://alpha.learnersbucket.com/course-item?item-id=66e46cfd66de7fee7de657be)
+LCP, CLS and INP are the main web vitals we need to look at.
+
+### LCP
+
+Largest visible content on page. Maybe image or heading or banner. Good score is < 2.5sec.
+
+#### How to Improve LCP
+
+* Preload the resource/image.
+* Use modern image formats like avif, webp.
+* Don't serve heavy images on mobiles.
+* Eliminate render blocking resouces like css and js. For this critical css can be preloaded and js can be deferred.
+* Use CDN for image fetching.
+
+### CLS
+
+How much page elements unexpectedly shift/jump during load. Score is a sum of all unexpected layout shifts. Good score: Under 0.1.
+
+#### How to Improve CLS
+
+* Always set width and height on images or use aspect-ratio.
+* Reserve space or use loaders for dynamic content to prevent content jumping when it loads.
+* Preload fonts. Font swap solves a different problem but it also causes layout shifts. Preloading helps with that.
+
+### INP
+
+The time from when a user interacts (click, tap, keypress) to when the browser paints the next frame in response. Measures responsiveness throughout the entire page lifetime, not just on load. Good score: Under 200ms.
+
+#### How to Improve INP
+
+* Prevent tasks that can blocks the main thread. Debounce expensive event handlers. Offload heavy computations to web workers.
+* Reduce DOM size. More size means more time for layout calculations after an update. Virtual Lists can be helpful here.
+
+[Read More](https://alpha.learnersbucket.com/course-item?item-id=66e46cfd66de7fee7de657be)
 
 ## Preload and Prefetch
 
@@ -170,3 +203,51 @@ Use prefetch when:
 ## Media Optimization
 
 [Read Here](https://alpha.learnersbucket.com/course-item?item-id=66e46d0366de7fee7de657d0)
+
+## Caching
+
+* When a browser receives a response, the server can attach headers that tell the browser how long to cache it and how to validate if it's still fresh.
+Cache-control header defines how long to use the cache.
+
+| Directive | Meaning |
+| --- | --- |
+| `Cache-Control: max-age=31536000` | Cache for 1 year; browser should not ask the server |
+| `Cache-Control: no-cache` | Always validate with the server before using -> serve if server responds 304 |
+| `Cache-Control: no-store` | Do not cache at all |
+| `Cache-Control: public` | CDNs can cache this |
+| `Cache-Control: private` | Only the browser can cache it (not CDNs) |
+
+* When max-age expires, ETags are used to check if the resource has changed. ETag is sort of a hash for a version of the file. If it changed, it means content has changed. So when max-age expires, a get request is made to server with Etag is headers. If it is unchanged, server can respond 304 with no content body. Else it sends new content body.
+
+* Asset fingerprinting is used. File names inside a build change when the content of the file changes. Otherwise they remain same and can be cached for long periods of time. However index.html must never be cached long term. It acts as entry point to application and if gets cached, it might not fetch the new js/css files after a new build is deployed. So, follow - HTML always fresh, assets cached forever.
+
+* Caching strategies for service workers -
+  * Cache First (good for static assets) -> cache.match(request) || fetch(request)
+  * Network First (good for API data, can help keep application alive offline) -> fetch(request).catch(() => cache.match(request))
+  * Stale While Revalidate (good for non-critical assets). Serve cached assets immediately and update cache in background.
+
+## Summary
+
+* CSS loading inside head can block the HTML parsing because resources will be downloaded in the order they are encountered. To fix, write critical CSS inline or `<style>` tag. This will ensure FCP is not blocked. Rest CSS can be loaded with async attribute.
+* Async vs Defer. Both download parallelly. Async pauses parsing but defer waits for parsing to finish. Use defer by default. Put async on scripts which are 3rd party like ads, widgets etc. Since they are independent, they can download in parallel and then start running without blocking our parsing. Defer should be mostly used for our own scripts that are dependent upon DOM being loaded and if one script is dependent upon others since defer means they will download and execute in order they are written.
+* Preconnect -> Connect to an origin you know you will require later. Process like handshake and all is already done due to this so when you actually connect to that origin, the request is faster.
+* Preload -> Immediately fetch the resource. This acts like high priority fetch. Good for things like critical css or images for LCP.
+* Prefetch -> Fetch data which the user might use going forward. It can be based on specific user patterns. Next.js does automatic loading for all Link tags.
+
+* Virtual Lists to keep the DOM smaller when he have large lists.
+* Web Workers to offload heavy computation tasks. Web workers can't access DOM, window or anything related to UI. They work in a seperate memory space and communicate via messages. Usecase can be rying to search something in huge lists or content can block main thread, so it can be given to web worker. Notion, Figma etc do this.
+* Debounce, throttle wherever needed.
+* Clear the event listeners for proper memory management.
+* Caching can be done at the client itself in the memory based on user interactions. Example, even with pagination we can do caching of visited pages to reduce api calls.
+
+**For Bad Network and Low End Devices**
+
+* navigator.connection gives info about client network type(3g, 4g etc), download speed etc. These can be used to adapt our app accordingly and serve lower quality media etc.
+* Adaptive media should be served.
+* Lazy loading should be used and things can be fetched as the user starts reaching them.
+* Optimistic UI updates so user doesn't feel blocked.
+* Prefetching can be done but naive prefetching can make extra requests and make the experience worse. Good way to do can be when network is good(Next.js does this) or based on user intent like hover etc.
+
+* navigator also gives info about device memory and other things. These can be used to decide the strategy.
+* CSS animations should be preffered over JS ones. JS blocks main thread. CSS only will work on the composite layer.
+* Avoid large lists and memory leaks. Use web workers.

@@ -578,7 +578,7 @@ console.dir(returned, "check closure preservation");
 // When JS engine detects something like this where the value needs to be preserved, it changes its memory allocation and does not store it on temporary callstack.
 // It creates a hidden "Context" object and places it directly on the heap. The pointer to this object is returned along with function c.
 // Since z does not form a closure. It will get cleaned up by garbage collector.
-// Check above log in browser to see the context object.
+// Check above dir log in browser to see the context object.
 
 // Trick Pattern 2
 // What happens when we do 2 == '2'? Is num 2 converted to string or string '2' converted to num?
@@ -743,6 +743,69 @@ function hoister() {
   // hoisting will happen inside the function. when 2 var have same name, function takes precedence.
   // so, function a will get hoisted and printed in first log. when exectuiton reaches down, 2 gets assigned to a and 2 will be logged.
 }
+
+
+// TRICK PATTERN 7
+
+Promise.resolve()
+  .then(() => {
+    console.log('A');
+    return Promise.resolve('B');
+  })
+  .then((val) => console.log(val));
+
+Promise.resolve()
+  .then(() => console.log('C'))
+  .then(() => console.log('D'));
+
+// ANS -> A,C,D,B
+// When you return a plain value from a .then(), the next .then() is queued as a microtask immediately. But when you return a Promise (even an already-resolved one), there are two extra microtask ticks before the next .then() fires. 
+
+
+// TRICK PATTERN 8
+
+console.log(typeof null); // Object -> very famous known thing in js
+console.log(null instanceof Object); // false -> instance of checks prototype chain. null doesn't have that chain.
+console.log(null == undefined); // true -> no logic, its just coded like that in js
+console.log(null === undefined); // false -> strict equality. no coercion will happen so false as they are different types.
+//null == 0          // false
+//null == false      // false
+//null == ''         // false
+//undefined == false // false
+
+
+// Trick PATTERN 9
+
+async function foo() {
+  console.log('A');
+  await Promise.resolve();
+  console.log('B');
+}
+
+console.log('C');
+foo();
+console.log('D');
+// ANS -> C, A, D, B -> async functions run sync until first await is encountered
+
+// TRICK PATTERN 10
+Promise.resolve(1)
+  .then(val => {
+    console.log(val);
+    throw new Error('oops');
+  })
+  .then(val => {
+    console.log(val);
+  })
+  .catch(err => {
+    console.log('caught:', err.message);
+    return 42;
+  })
+  .then(val => {
+    console.log(val);
+  });
+
+  //ANS -> 1, caught: oops, 42
+  // if err is thrown, all thens until catch will be skipped. then catch return 42 which acts as val for next then
 
 // POLYFILLS FOR CALL, APPLY, BIND
 
@@ -939,7 +1002,6 @@ const numbersaa = Array.from({ length: 5 }, (v, i) => i);
 
 // memory management
 
-// crtical rendering path, lighthouse and currying
 //  constructor in fuinctions
 
 const newDebounce = (callback, delay, immediate) => {
@@ -1007,6 +1069,28 @@ function concurrentPromiseProcessor(promises, size){
   })
 }
 
+
+function deepClone(value, seen = new WeakMap()) {
+  if (value === null || typeof value !== 'object') return value;
+  if (value instanceof Date) return new Date(value.getTime());
+  if (seen.has(value)) return seen.get(value);
+
+  if (Array.isArray(value)) {
+    const cloned = [];
+    seen.set(value, cloned);
+    value.forEach((item, i) => {
+      cloned[i] = deepClone(item, seen);
+    });
+    return cloned;
+  }
+
+  const cloned = {};
+  seen.set(value, cloned);
+  for (const key of Object.keys(value)) {
+    cloned[key] = deepClone(value[key], seen);
+  }
+  return cloned;
+}
 
 
 // 5-15
